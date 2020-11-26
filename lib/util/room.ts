@@ -57,6 +57,18 @@ export class Room extends EventEmitter {
   gameState: GameState = GameState.NotStarted;
   publicity?: Publicity = Publicity.Private;
   setCode(code: string) {
+    if (code.length === 6) {
+      if (!/^[A-Z]+$/.test(code)) {
+        throw new Error("Invalid V2 game code, expected digits A-Z, got '" + code + "'");
+      }
+    } else if (code.length === 4) {
+      if (!/^[A-Z]+$/.test(code)) {
+        throw new Error("Invalid V1 game code, expected digits A-Z, got '" + code + "'");
+      }
+    } else {
+      throw new Error("Invalid game code, expected 4 or 6 digit game code, got '" + code + "'");
+    }
+
     this.internalCode = code;
     this.connections.forEach((singleCon) => {
       singleCon.send({

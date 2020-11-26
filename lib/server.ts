@@ -95,6 +95,7 @@ export class Server extends AsyncEventEmitter<ServerEvents> {
       case "GameCreate":
         {
           let room = new Room();
+          room.setCode("HELLO");
           room.settings = packet.RoomSettings;
           let roomEvent = new RoomCreationEvent(room);
           await this.emit("roomCreated", roomEvent);
